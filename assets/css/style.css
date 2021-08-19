@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+
+
+
+
 /* .container{
     
 } */
@@ -5,11 +11,32 @@
 
 #ram{
     overflow:scroll; 
-    height: 600px;;
+    height: 600px;
+    padding: 0.4rem 0rem;
+    border: 1px solid black;
 }    
 
+/* #add-input{
+    box-shadow: 0 0 2pt 1pt #6aeb4a;
+} */
 
-#main-units{
+#main-units, #add-input{
     width: 20rem;
 }
 
+input{
+    font-size: 2.1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.alu-cont{
+    margin-top: 5rem;
+    width: 20.1rem;
+    border: 1px solid black;
+}
+
+
+#info-paragraph{
+    font-family: 'Roboto', sans-serif;
+}

@@ -10,7 +10,7 @@
     <title>cpu-simulation</title>
 </head>
 <body>
-    <div class="container mt-3">
+    <div class="container-fluid mt-3">
         <div class="row">
           
             <div class="col-md-4">
@@ -18,7 +18,7 @@
                     <p class="navbar-brand" href="#">Memory (Input values are in hex)</p>
                     <p>Min(0000) - Max(2000)</p>
                   </nav>
-                  <div id="ram" style="border: 1px solid black;" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                  <div id="ram" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
                     <!-- memory adresses with their values -->
                   </div>
             </div>
@@ -39,18 +39,45 @@
                   <input id="ac-value" value="0" readonly type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
               </div>
+              <!-- Info paragraph -->
+
+              <h2 id="info-paragraph" class="mt-5 pt-5">Input your values and click the play button to start.</h2>
 
               <!-- Arthimetic logic unit container -->
-              
+              <div class="alu-cont">
+                <div id="add-input" class="input-group input-group-sm">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">input-1</span>
+                  <input id="add-input-1" readonly type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                  
+                <div style="width: 20.1rem;" class="d-flex justify-content-center my-2">
+                  <i class="fas fa-plus"></i>
+                </div>
+
+                <div id="add-input" class="input-group input-group-sm">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">input-2</span>
+                  <input id="add-input-2" readonly type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+
+                <div style="width: 20.1rem;" class="d-flex justify-content-center my-2">
+                  <i class="fas fa-equals"></i>
+                </div>
+
+                <div id="add-input" class="input-group input-group-sm">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Result</span>
+                  <input id="add-result" readonly type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+
+              </div>
 
               <!-- Play icon -->
-              <button id="play-button">
-                <i class="fas fa-play fa-5x"></i>
+              <button id="play-button" class="mt-5">
+                <i class="fas fa-play fa-3x"></i>
               </button>
               
             </div>
 
-
+            
 
 
 
