@@ -1,3 +1,3 @@
 # fetch-execute-cycle_simulation
 
-Preview 
+Preview https://biniyamab.github.io/fetch-execute-cycle_simulation/
