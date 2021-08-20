@@ -12,18 +12,22 @@
 <body>
     <div class="container-fluid mt-3">
         <div class="row">
-          
+
+            <!-- First column -->
             <div class="col-md-4">
                 <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
-                    <p class="navbar-brand" href="#">Memory (Input values are in hex)</p>
-                    <p>Min(0000) - Max(2000)</p>
+                    <p class="navbar-brand" href="#">Memory (Input values and addresses are in hex)</p><br>
+                    <p>Min(0) - Max(c9)</p>
                   </nav>
                   <div id="ram" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
                     <!-- memory adresses with their values -->
                   </div>
             </div>
 
-            <div class="col-md-7 ps-5">
+
+            <!-- Second Column -->
+            <div class="col-md-3 ps-5">
+
               <!-- Main unit container -->
               <div class="main-units-cont mt-3">
                 <div id="main-units" class="input-group input-group-sm mb-3">
@@ -39,8 +43,8 @@
                   <input id="ac-value" value="0" readonly type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
               </div>
-              <!-- Info paragraph -->
 
+              <!-- Info paragraph -->
               <h2 id="info-paragraph" class="mt-5 pt-5">Input your values and click the play button to start.</h2>
 
               <!-- Arthimetic logic unit container -->
@@ -71,17 +75,31 @@
               </div>
 
               <!-- Play icon -->
-              <button id="play-button" class="mt-5">
-                <i class="fas fa-play fa-3x"></i>
-              </button>
+              <span>
+                <label for="speed" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Simulation Speed</label>
+                <select name="speed" id="speed-selector">
+                  <option value="1000">Slow</option>
+                  <option value="200">Fast</option>
+                  <option value="600">Medium</option>
+                </select>
+              </span>
+
+              <span class="ps-4">
+                <button id="play-button" class="mt-5">
+                  <i class="fas fa-play fa-3x"></i>
+                </button>
+              </span>
               
             </div>
-
-            
-
-
-
-
+            <!-- operation code lookup table -->
+            <div class="col-md-3 ms-5">
+              <div class="container">
+                <h4 class="op-code">Operation codes</h4>
+                <p class="ops text-center">"1" (0001) Load AC from Memory</p>
+                <p class="ops text-center">"2" (0010) Store AC to Memory</p>
+                <p class="ops text-center">"5" (0101) Add to AC from Memory</p>
+              </div>
+            </div>
 
         </div>
     </div>

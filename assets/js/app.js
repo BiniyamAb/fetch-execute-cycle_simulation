@@ -4,13 +4,16 @@ document.addEventListener("DOMContentLoaded", function(){
     const OPCODE_LOAD = 1;
     const OPCODE_STORE = 2;
     const REG_EXP = new RegExp(/^[a-fA-F0-9]*$/);
-    const EXIT = 1;
 
+    const sleepMy = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    var delayMilliseconds = 1000; //other values - 200(fast) and 500(medium)
+    var generalShadow = "0 0 2pt 1pt #6aeb4a";
     var currentOpCode;
 
-    const elemnt = document.getElementById("ram");
+    const MemoryContainer = document.getElementById("ram");
     for (let index = 0; index < 201; index++) {
-        elemnt.innerHTML += 
+        MemoryContainer.innerHTML += 
         `
         <div class="input-group input-group-sm mb-1">
             <span class="input-group-text" id="inputGroup-sizing-sm">${index.toString(16)}</span>
@@ -19,10 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
         `;
         
     }
-
-    function sleepMy(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    
 
 
 
@@ -38,45 +38,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var AddInput2 = document.getElementById("add-input-2");
 
-    var AddResult = document.getElementById("add-result");
+    var AddResult = document.getElementById("add-result");    
+    
+    var speedSelector = document.getElementById("speed-selector");
 
-
-
-
-    // alert(`pc value: ${pcValue}\nirvalue: ${irValue}\n acvalue: ${acValue}`);
-
-       
-
-    // while (icValue > 0) {
-    //     console.log(icValue); 
-    //     irAdress++;
-    //     icValue = parseInt(document.getElementById(`${irAdress}-inp`).value);  
-    // }
-    // if (icValue == 0) {
-    //     console.log("finished.");
-    // }
-
-
-
-
-    // setTimeout(() => {
-    //     var irAdress = parseInt(document.getElementById("ir-value").value, 16);
-    //     var icValue = parseInt(document.getElementById(`${irAdress}-inp`).value);
-    //     while (icValue > 0) {
-    //         console.log(icValue); 
-    //         irAdress++;
-    //         icValue = parseInt(document.getElementById(`${irAdress}-inp`).value);
-            
-    //     }
-    // }, 1000);
     
     
-
-    
-
 
     const playButton = document.getElementById('play-button');
     document.getElementById('play-button').addEventListener("click", async () =>{
+
+        // Reset and initialize the simulation
         playButton.setAttribute("disabled", "disabled");
         infoText.innerText = "fetch-execute-cycle started."
         pcInput.value = "0";
@@ -84,14 +56,14 @@ document.addEventListener("DOMContentLoaded", function(){
         acInput.value = "0";
         var toBeLoaded;
         var toBeStored;
+        delayMilliseconds = parseInt(speedSelector.value);
         var pcAdressInDecimal = parseInt(document.getElementById("pc-value").value, 16);
-        var pcAdressInStringRaw = document.getElementById(`${pcAdressInDecimal}-inp`).value;
         var irAdressInDecimal = parseInt(document.getElementById("ir-value").value, 16);
         var irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
         var irValue = parseInt(document.getElementById(`${irAdressInDecimal}-inp`).value);
         var irRealValue = parseInt(irValueInStringRaw.replace(irValueInStringRaw[0], ""), 16);
 
-        
+        // Validate instruction inputs
         while (irAdressInDecimal < 200) {
             irValue = parseInt(document.getElementById(`${irAdressInDecimal}-inp`).value);
             irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
@@ -121,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // validate memory inputs
         while (irAdressInDecimal < 200) {
             irValue = parseInt(document.getElementById(`${irAdressInDecimal}-inp`).value);
             irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
@@ -134,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
             irAdressInDecimal++;
         }
 
+        // Get input values for simulation process
         pcAdressInDecimal = parseInt(document.getElementById("pc-value").value, 16);
         irAdressInDecimal = parseInt(document.getElementById("ir-value").value, 16);
         irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
@@ -141,188 +115,133 @@ document.addEventListener("DOMContentLoaded", function(){
         irRealValue = parseInt(irValueInStringRaw.replace(irValueInStringRaw[0], ""), 16);
         var acValueInStringRaw = document.getElementById('ac-value').value;
         var acValueInDecimal = parseInt(document.getElementById("ac-value").value, 16);
-        // try {
-            while (irValue > 0) {
-                await sleepMy(2000);
-                pcInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                await sleepMy(2000);
-                pcInput.style.boxShadow = "";
-                document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                await sleepMy(2000);
-                irInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                await sleepMy(2000);
-                irInput.value = irValueInStringRaw;
-                await sleepMy(1000);
-                
-                irInput.style.boxShadow = "";
-                document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = "";
-                await sleepMy(2000);
+        while (irValue > 0) {
+            await sleepMy(2*delayMilliseconds);
+            pcInput.style.boxShadow = generalShadow;
+            await sleepMy(2*delayMilliseconds);
+            pcInput.style.boxShadow = "";
+            document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = generalShadow;
+            await sleepMy(2*delayMilliseconds);
+            irInput.style.boxShadow = generalShadow;
+            await sleepMy(2*delayMilliseconds);
+            irInput.value = irValueInStringRaw;
+            await sleepMy(delayMilliseconds);
+            
+            irInput.style.boxShadow = "";
+            document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = "";
+            await sleepMy(2*delayMilliseconds);
 
-                pcInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                await sleepMy(300);
-                pcInput.style.boxShadow = "";
-                await sleepMy(200);
-                pcInput.value = (pcAdressInDecimal+1).toString(16);
-                pcInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
+            pcInput.style.boxShadow = generalShadow;
+            await sleepMy(300);
+            pcInput.style.boxShadow = "";
+            await sleepMy(200);
+            pcInput.value = (pcAdressInDecimal+1).toString(16);
+            pcInput.style.boxShadow = generalShadow;
 
-                await sleepMy(1000);
-                pcInput.style.boxShadow = "";
+            await sleepMy(delayMilliseconds);
+            pcInput.style.boxShadow = "";
 
-                currentOpCode = parseInt(irValueInStringRaw[0]);
+            currentOpCode = parseInt(irValueInStringRaw[0]);
 
 
-                if (currentOpCode == OPCODE_LOAD) {
-                    // do loading here...
-                    infoText.innerText = `Load AC from Memory`;
-                    document.getElementById(`${irRealValue}-inp`).style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(2000);
-                    acInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
+            if (currentOpCode == OPCODE_LOAD) {
+                // do loading here...
+                infoText.innerText = `Load AC from Memory`;
+                document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
+                await sleepMy(2*delayMilliseconds);
+                acInput.style.boxShadow = generalShadow;
 
-                    ValuetoBeLoaded = document.getElementById(`${irRealValue}-inp`).value;
-                    await sleepMy(2000);
-                    acInput.value = ValuetoBeLoaded;
+                ValuetoBeLoaded = document.getElementById(`${irRealValue}-inp`).value;
+                await sleepMy(2*delayMilliseconds);
+                acInput.value = ValuetoBeLoaded;
 
-                    await sleepMy(1000);
-                    acInput.style.boxShadow = "";
-                    document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
+                await sleepMy(delayMilliseconds);
+                acInput.style.boxShadow = "";
+                document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
 
-                    await sleepMy(2000);
-                    infoText.innerText = `Next instruction waiting...`;
-                }else if (currentOpCode == OPCODE_STORE) {
-                    // do storing here...
-                    infoText.innerText = `Store AC to Memory`;
-                    await sleepMy(2000);
-                    acInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(1000);
-                    document.getElementById(`${irRealValue}-inp`).style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    ValuetoBeStored = acValueInStringRaw;
-                    ElementToStoreValue = document.getElementById(`${irRealValue}-inp`);
-                    await sleepMy (2000);
-                    ElementToStoreValue.value = ValuetoBeStored;
-                    await sleepMy(2000);
+                await sleepMy(2*delayMilliseconds);
+                infoText.innerText = `Next instruction waiting...`;
+            }else if (currentOpCode == OPCODE_STORE) {
 
-                    ElementToStoreValue.style.boxShadow = "";
-                    acInput.style.boxShadow = "";
+                // do storing here...
+                infoText.innerText = `Store AC to Memory`;
+                await sleepMy(2*delayMilliseconds);
+                acInput.style.boxShadow = generalShadow;
+                await sleepMy(delayMilliseconds);
+                document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
+                ValuetoBeStored = acValueInStringRaw;
+                ElementToStoreValue = document.getElementById(`${irRealValue}-inp`);
+                await sleepMy (2*delayMilliseconds);
+                ElementToStoreValue.value = ValuetoBeStored;
+                await sleepMy(2*delayMilliseconds);
 
-                    infoText.innerText = "Next instruction waiting...";
-                }else if (currentOpCode == OPCODE_ADD) {
-                    // do adding here...
-                    infoText.innerText = `Add to AC from Memory`;
-                    await sleepMy(2000);
-                    document.getElementById(`${irRealValue}-inp`).style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(1000);
-                    AddInput1.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(2000);
-                    valuetoBeAdded = document.getElementById(`${irRealValue}-inp`).value;
-                    AddInput1.value = valuetoBeAdded;
-                    await sleepMy(2000);
-                    AddInput1.style.boxShadow = "0 0 2pt 1pt #0000FF";
-                    document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
+                ElementToStoreValue.style.boxShadow = "";
+                acInput.style.boxShadow = "";
 
-                    await sleepMy(2000);
-                    acInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(1000);
-                    AddInput2.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(2000);
-                    AddInput2.value = acValueInStringRaw;
-                    await sleepMy(2000);
-                    AddInput2.style.boxShadow = "0 0 2pt 1pt #0000FF";
-                    acInput.style.boxShadow = "";
+                infoText.innerText = "Next instruction waiting...";
+            }else if (currentOpCode == OPCODE_ADD) {
 
-                    var result = acValueInDecimal + parseInt(valuetoBeAdded, 16);
-                    await sleepMy(2000);
-                    AddResult.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(2000);
-                    AddResult.value = result.toString(16);
-                    await sleepMy(1000);
-                    AddInput1.style.boxShadow = "";
-                    AddInput2.style.boxShadow = "";
+                // do adding here...
+                infoText.innerText = `Add to AC from Memory`;
+                await sleepMy(2*delayMilliseconds);
+                document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
+                await sleepMy(delayMilliseconds);
+                AddInput1.style.boxShadow = generalShadow;
+                await sleepMy(2*delayMilliseconds);
+                valuetoBeAdded = document.getElementById(`${irRealValue}-inp`).value;
+                AddInput1.value = valuetoBeAdded;
+                await sleepMy(2*delayMilliseconds);
+                AddInput1.style.boxShadow = "0 0 2pt 1pt #0000FF";
+                document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
 
-                    await sleepMy(2000);
-                    acInput.style.boxShadow = "0 0 2pt 1pt #6aeb4a";
-                    await sleepMy(2000);
-                    acInput.value = AddResult.value;
-                    await sleepMy(1000);
-                    AddResult.style.boxShadow = "";
-                    acInput.style.boxShadow = "";
-                    await sleepMy(1000);
+                await sleepMy(2*delayMilliseconds);
+                acInput.style.boxShadow = generalShadow;
+                await sleepMy(delayMilliseconds);
+                AddInput2.style.boxShadow = generalShadow;
+                await sleepMy(2*delayMilliseconds);
+                AddInput2.value = acValueInStringRaw;
+                await sleepMy(2*delayMilliseconds);
+                AddInput2.style.boxShadow = "0 0 2pt 1pt #0000FF";
+                acInput.style.boxShadow = "";
 
-                    infoText.innerText = "Next instruction waiting"
-                }
-                
+                var result = acValueInDecimal + parseInt(valuetoBeAdded, 16);
+                await sleepMy(2*delayMilliseconds);
+                AddResult.style.boxShadow = generalShadow;
+                await sleepMy(2*delayMilliseconds);
+                AddResult.value = result.toString(16);
+                await sleepMy(delayMilliseconds);
+                AddInput1.style.boxShadow = "";
+                AddInput2.style.boxShadow = "";
 
-                irAdressInDecimal++;
-                pcAdressInDecimal = parseInt(document.getElementById("pc-value").value, 16);
-                irValue = parseInt(document.getElementById(`${irAdressInDecimal}-inp`).value);
-                irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
-                irRealValue = parseInt(irValueInStringRaw.replace(irValueInStringRaw[0], ""), 16);
-                acValueInStringRaw = document.getElementById('ac-value').value;
-                acValueInDecimal = parseInt(document.getElementById("ac-value").value, 16);
+                await sleepMy(2*delayMilliseconds);
+                acInput.style.boxShadow = generalShadow;
+                await sleepMy(2*delayMilliseconds);
+                acInput.value = AddResult.value;
+                await sleepMy(delayMilliseconds);
+                AddResult.style.boxShadow = "";
+                acInput.style.boxShadow = "";
+                await sleepMy(delayMilliseconds);
+
+                infoText.innerText = "Next instruction waiting..."
             }
-        // } catch (error) {
-        //     alert(error.value);
-        // }
-        await sleepMy(1000);
+            
+
+            // update variables with the new input values
+            irAdressInDecimal++;
+            pcAdressInDecimal = parseInt(document.getElementById("pc-value").value, 16);
+            irValue = parseInt(document.getElementById(`${irAdressInDecimal}-inp`).value);
+            irValueInStringRaw = document.getElementById(`${irAdressInDecimal}-inp`).value;
+            irRealValue = parseInt(irValueInStringRaw.replace(irValueInStringRaw[0], ""), 16);
+            acValueInStringRaw = document.getElementById('ac-value').value;
+            acValueInDecimal = parseInt(document.getElementById("ac-value").value, 16);
+        }
+        // Exit simulation(Exit Condition)
+        await sleepMy(delayMilliseconds);
         infoText.innerText = "Cycle has halted. No more instructions to be fetched.";
-        await sleepMy(500);
+        await sleepMy(delayMilliseconds);
         playButton.removeAttribute("disabled");
     });
 
 });
 
-
-
-
-
-// out of DOM
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function onInputChange(num) {
-//     var newNum;
-//     if(num == undefined) num = "0";
-//     num = typeof(num) === String ? num : num.tostring();
-//     while (num.length < 4) {
-//        newNum = "0" + num;
-//     }
-
-//     return newNum
-
-// }
-
-
-
-    
-// var control = document.getElementById('');
-// var regExp = new RegExp(/^0x[0-9A-F]{1,4}$/i);
-// if (!regExp.test(control))
-//     alert('invalid');
+// End of line

@@ -3,12 +3,6 @@
 
 
 
-
-/* .container{
-    
-} */
-
-
 #ram{
     overflow:scroll; 
     height: 600px;
@@ -39,4 +33,20 @@ input{
 
 #info-paragraph{
     font-family: 'Roboto', sans-serif;
+}
+
+
+.op-code{
+    padding: 1rem;
+    border: 1px solid black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ops{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#speed-selector{
+    padding: 0.2rem;
+    font-size: 1.1rem;
 }
