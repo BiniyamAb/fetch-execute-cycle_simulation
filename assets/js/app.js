@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var delayMilliseconds = 1000; //other values - 200(fast) and 500(medium)
     var generalShadow = "0 0 2pt 1pt #6aeb4a";
     var currentOpCode;
+    var inputHtml;
 
     const MemoryContainer = document.getElementById("ram");
     for (let index = 0; index < 201; index++) {
@@ -20,9 +21,10 @@ document.addEventListener("DOMContentLoaded", function(){
         </div>
         `;
         
+        
     }
     
-
+    
 
 
     var infoText = document.getElementById("info-paragraph");
@@ -119,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function(){
             pcInput.style.boxShadow = generalShadow;
             await sleepMy(2*delayMilliseconds);
             pcInput.style.boxShadow = "";
+            window.location.replace(`#${irAdressInDecimal}-inp`);
             document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = generalShadow;
             await sleepMy(2*delayMilliseconds);
             irInput.style.boxShadow = generalShadow;
@@ -128,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function(){
             
             irInput.style.boxShadow = "";
             document.getElementById(`${irAdressInDecimal}-inp`).style.boxShadow = "";
+            window.location.replace("#");
             await sleepMy(2*delayMilliseconds);
 
             pcInput.style.boxShadow = generalShadow;
@@ -146,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function(){
             if (currentOpCode == OPCODE_LOAD) {
                 // do loading here...
                 infoText.innerText = `Load AC from Memory`;
+                window.location.replace(`#${irRealValue}-inp`);
                 document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
                 await sleepMy(2*delayMilliseconds);
                 acInput.style.boxShadow = generalShadow;
@@ -157,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 await sleepMy(delayMilliseconds);
                 acInput.style.boxShadow = "";
                 document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
+                window.location.replace("#");
 
                 await sleepMy(2*delayMilliseconds);
                 infoText.innerText = `Next instruction waiting...`;
@@ -167,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 await sleepMy(2*delayMilliseconds);
                 acInput.style.boxShadow = generalShadow;
                 await sleepMy(delayMilliseconds);
+                window.location.replace(`#${irRealValue}-inp`);
                 document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
                 ValuetoBeStored = acValueInStringRaw;
                 ElementToStoreValue = document.getElementById(`${irRealValue}-inp`);
@@ -176,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 ElementToStoreValue.style.boxShadow = "";
                 acInput.style.boxShadow = "";
+                window.location.replace("#");
 
                 infoText.innerText = "Next instruction waiting...";
             }else if (currentOpCode == OPCODE_ADD) {
@@ -183,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 // do adding here...
                 infoText.innerText = `Add to AC from Memory`;
                 await sleepMy(2*delayMilliseconds);
+                window.location.replace(`#${irRealValue}-inp`);
                 document.getElementById(`${irRealValue}-inp`).style.boxShadow = generalShadow;
                 await sleepMy(delayMilliseconds);
                 AddInput1.style.boxShadow = generalShadow;
@@ -192,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 await sleepMy(2*delayMilliseconds);
                 AddInput1.style.boxShadow = "0 0 2pt 1pt #0000FF";
                 document.getElementById(`${irRealValue}-inp`).style.boxShadow = "";
+                window.location.replace("#");
 
                 await sleepMy(2*delayMilliseconds);
                 acInput.style.boxShadow = generalShadow;
@@ -236,6 +246,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         // Exit simulation(Exit Condition)
         await sleepMy(delayMilliseconds);
+        window.location.replace("#");
         infoText.innerText = "Cycle has halted. No more instructions to be fetched.";
         await sleepMy(delayMilliseconds);
         playButton.removeAttribute("disabled");
