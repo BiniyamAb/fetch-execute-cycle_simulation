@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function(){
-    alert("first load");
     const OPCODE_ADD = 5;
     const OPCODE_LOAD = 1;
     const OPCODE_STORE = 2;
